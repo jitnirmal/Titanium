@@ -1,13 +1,15 @@
-set(Engine_SRCS
+set(MatchingEngine_SRCS
     main.cpp
 )
 
-add_executable(OrderManager
-    ${Engine_SRCS}
+add_executable(MatchingEngine
+    ${MatchingEngine_SRCS}
 )
 
 # Specify here the libraries this program depends on
-target_link_libraries(OrderManager
+target_link_libraries( MatchingEngine 
+	OrderProcessor
+	MDFeed
 )
 
-install(TARGETS OrderManager DESTINATION bin)
+install(TARGETS MatchingEngine DESTINATION bin)

@@ -1,6 +1,17 @@
 #include <iostream>
+#include "Order.h"
+#include "MData.h"
 
-int main(int argc, char *argv[])
-{
-	std::cout << "Order Manager Testing" << std::endl;
+namespace titanium {
+	namespace mengine {
+
+		int main(int argc, char *argv[])
+		{
+			titanium::mdfeed::MData md;
+			titanium::op::Order order;
+
+			std::cout << "Order Manager Testing" << std::endl;
+		}
+
+	}
 }
