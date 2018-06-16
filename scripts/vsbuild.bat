@@ -1,6 +1,8 @@
 ECHO OFF
 ECHO starting program
-cd C:\Users\jitni\Documents\
-cmake C:\Users\jitni\Documents\GitHub\OrderManager
-cmake --build TitaniumBuild --
+
+cd ..
+cmake -H. -Bvsbuild
+cmake --build vsbuild --
+
 PAUSE
