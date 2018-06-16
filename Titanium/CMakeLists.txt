@@ -1,4 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 add_subdirectory(Engine)
+add_subdirectory(Instrument)
 add_subdirectory(OrderProcessor)
+add_subdirectory(OrderInterface)
 add_subdirectory(MDFeed)
+add_subdirectory(Util)

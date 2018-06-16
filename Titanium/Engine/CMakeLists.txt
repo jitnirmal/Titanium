@@ -7,9 +7,11 @@ add_executable(MatchingEngine
 )
 
 # Specify here the libraries this program depends on
-target_link_libraries( MatchingEngine 
+target_link_libraries(  MatchingEngine
 	OrderProcessor
+	OrderInterface
 	MDFeed
 )
 
 install(TARGETS MatchingEngine DESTINATION bin)
+

@@ -1,9 +1,8 @@
 #include <iostream>
 
 namespace titanium {
-	namespace mdfeed {
-		class MData
-		{
-		};
+	namespace util {
+		using UID = long long;
+
 	}
 }
