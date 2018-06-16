@@ -13,8 +13,8 @@ int main()
 	
 	try {
 		auto oStore = std::make_unique<store>(file, delim);
-		oStore->getOrderStoreFromFile();
-		oStore->Print();
+		oStore->GetOrderStoreFromFile();
+		std::cout << *oStore << std::endl;
 		
 	}
 	catch (std::exception& ex)

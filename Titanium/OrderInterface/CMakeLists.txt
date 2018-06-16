@@ -4,7 +4,9 @@ set(OrderInterface_SRCS
 	OrderEvtOut.h
 	OrderEvtOut.cpp
 	FileReader.h
+	FileReader.cpp
 	OrderStore.h
+	OrderStore.cpp
 )
 
 # Declare the library

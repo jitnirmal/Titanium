@@ -6,6 +6,7 @@ set(Util_SRCS
 	Factory.h
     ObjectId.cpp
 	Util.h
+	Util.cpp
 )
 
 # Declare the library
