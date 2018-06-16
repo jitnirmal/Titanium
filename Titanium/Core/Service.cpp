@@ -3,10 +3,9 @@
 namespace titanium {
 	namespace core {
 		
-		template <class T>
-		void Service::post(const T& task) {
-				_ios.post(task);
-		}
+		
+
+	
 		void Service::worker_thread() {
 			_ios.run();
 		}

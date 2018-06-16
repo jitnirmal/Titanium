@@ -3,6 +3,8 @@
 #include "MData.h"
 #include "OrderStore.h"
 #include "OrderService.h"
+#include <chrono>
+#include <thread>
 
 int main()
 {
@@ -31,5 +33,12 @@ int main()
 		std::cout << "Exception caught building Order Store..." << std::endl;
 	}
 	std::cout << "Order Manager Testing" << std::endl;
+	
+	using namespace std::chrono_literals;
+	while (true)
+	{
+		std::this_thread::sleep_for(3s);
+	}
+
 	return true;
 }

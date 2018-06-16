@@ -8,15 +8,15 @@ namespace titanium {
 			:_fileName(fileName),
 			_delim(delim) {}
 		
+		
+
 		void OrderStore::PostOrders()
 		{
 			for (auto& spOrderPtr : _store)
 			{
-				core::IEvent* event = new OrderEvtIn(spOrderPtr);
 				auto& os = op::OrderService::Instance();
-				// should be posted to service... but having compilation issue
-			    //os.post(boost::bind(&core::Service::onEvent, &os, nullptr));
-				os.onEvent(event);
+				core::IEvent* event = new OrderEvtIn(spOrderPtr);
+				os.post(boost::bind(&core::Service::onEvent, &os, event));
 			}
 		}
 		void OrderStore::GetOrderStoreFromFile()

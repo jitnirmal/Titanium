@@ -17,6 +17,7 @@ add_library(OrderInterface STATIC
 # Specify here the libraries this program depends on
 target_link_libraries(  OrderInterface
 	OrderProcessor
+	Core
 	Util
 )
 

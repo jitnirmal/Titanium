@@ -14,7 +14,10 @@ namespace titanium {
 		class Service {
 		public:
 			template <class T>
-			void post(const T& task);
+			void post(const T& task) {
+				_ios.post(task);
+			}
+			
 			void worker_thread();
 			void start();
 			virtual void onEvent(IEvent* event) = 0 {}
