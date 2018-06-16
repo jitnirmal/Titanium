@@ -9,6 +9,8 @@ set(OrderProcessor_SRCS
 	OrderMatcher.h
 	Trade.cpp
 	Trade.h
+	OrderService.cpp
+	OrderService.h
 )
 
 # Declare the library
@@ -18,8 +20,10 @@ add_library(OrderProcessor STATIC
 
 # Specify here the libraries this program depends on
 target_link_libraries(  OrderProcessor
+	Core
 	Instrument
 	Util
+	OrderInterface
 )
 
 # Specify here the include directories exported

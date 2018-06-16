@@ -2,6 +2,8 @@
 #include "Order.h"
 #include "MData.h"
 #include "OrderStore.h"
+#include "OrderService.h"
+
 int main()
 {
 	using store = titanium::ordersInt::OrderStore;
@@ -9,11 +11,12 @@ int main()
 	file = file.append("OrdersIn.csv");
 	const auto delim = ',';
 
-	auto sp = std::make_shared<int>(300);
 	
+
 	try {
 		auto oStore = std::make_unique<store>(file, delim);
 		oStore->GetOrderStoreFromFile();
+		oStore->PostOrders();
 		std::cout << *oStore << std::endl;
 		
 	}

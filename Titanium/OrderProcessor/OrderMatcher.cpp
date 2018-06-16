@@ -3,24 +3,7 @@
 namespace titanium {
 	namespace op {
 
-		IOrderMatcher::IOrderMatcher()
-		{
-		}
-
-		IOrderMatcher::~IOrderMatcher()
-		{
-		}
-
-
-		OrderMatcher::OrderMatcher()
-		{
-		}
-
-		OrderMatcher::~OrderMatcher()
-		{
-		}
-
-		TradePtr OrderMatcher::match(Order& mktOrder, OrderBook& orderBook)
+		TradePtr OrderMatcher::process(Order& mktOrder, OrderBook& orderBook)
 		{
 			
 			long tradedQty{ 0 };

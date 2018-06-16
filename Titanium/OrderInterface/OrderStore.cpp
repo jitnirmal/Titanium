@@ -1,11 +1,24 @@
 #include "OrderStore.h"
+#include "OrderService.h"
+#include "OrderEvtIn.h"
 
 namespace titanium {
 	namespace ordersInt {
 		OrderStore::OrderStore(const std::string& fileName, const char delim) 
 			:_fileName(fileName),
 			_delim(delim) {}
-
+		
+		void OrderStore::PostOrders()
+		{
+			for (auto& spOrderPtr : _store)
+			{
+				core::IEvent* event = new OrderEvtIn(spOrderPtr);
+				auto& os = op::OrderService::Instance();
+				// should be posted to service... but having compilation issue
+			    //os.post(boost::bind(&core::Service::onEvent, &os, nullptr));
+				os.onEvent(event);
+			}
+		}
 		void OrderStore::GetOrderStoreFromFile()
 		{
 

@@ -1,6 +1,7 @@
 set(Util_SRCS
     ObjectId.h
 	Singleton.h
+	Singleton.cpp
 	Observer.h
 	Visitor.h
 	Factory.h

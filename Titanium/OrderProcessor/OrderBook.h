@@ -10,8 +10,8 @@ namespace titanium {
 		{
 		public:
 
-			OrderBook();
-			virtual ~OrderBook();
+			OrderBook() = default;
+			virtual ~OrderBook() = default;
 
 			void addOrder(Order* order);
 			void removeOrder(Order* order);
