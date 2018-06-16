@@ -8,17 +8,17 @@
 #include "Service.h"
 #include "Event.h"
 #include "Singleton.h"
-#include <unordered_map>
+
+#include "Observer.h"
 
 namespace titanium {
 	namespace op {
 
-		class OrderService : public core::Service, public util::SingletonBase<OrderService>
+		class OrderService : public core::Service, public util::SingletonBase<OrderService>, public util::Observable<Order>
 		{
 		public:
 			virtual void onEvent(core::IEvent* event) override;
-		private:
-			std::unordered_map<std::string, OrderBook> _orderBookByInstrument;
+		
 		};
 	}
 }

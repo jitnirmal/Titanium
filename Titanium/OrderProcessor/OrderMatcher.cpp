@@ -1,7 +1,32 @@
 #include "OrderMatcher.h"
+#include "OrderService.h"
 
 namespace titanium {
 	namespace op {
+
+		void OrderMatcher::Init() {
+			OrderService::Instance().addObserver(*this);
+		}
+
+		void OrderMatcher::onEvent(Order& order)
+		{
+			auto symbol = order.orderDef().getSymbol();
+			auto obIter = _orderBookByInstrument.find(symbol);
+
+			OrderBook* ob = nullptr;
+			if (obIter != _orderBookByInstrument.end())
+			{
+				ob = &obIter->second;
+			}
+			else
+			{
+				ob = new OrderBook();
+				_orderBookByInstrument[symbol] = *ob;
+			}
+
+			process(order, *ob);
+		}
+
 
 		TradePtr OrderMatcher::process(Order& mktOrder, OrderBook& orderBook)
 		{

@@ -11,6 +11,8 @@ int main()
 	file = file.append("OrdersIn.csv");
 	const auto delim = ',';
 
+	titanium::op::OrderService::Instance().start();
+	titanium::op::OrderMatcher::Instance().Init();
 	
 
 	try {
