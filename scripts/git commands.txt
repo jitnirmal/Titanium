@@ -1,0 +1,13 @@
+git config --global user.name Nirmal
+git config --global user.email jitnirmal@gmail.com
+git fetch https://github.com/jitnirmal/Titanium.git
+git clone https://github.com/jitnirmal/Titanium.git .
+
+create empty folder 
+Checkout
+1.  git clone https://github.com/jitnirmal/Titanium.git .
+Check in
+a. git add .
+b. git commit
+c, git push
+
