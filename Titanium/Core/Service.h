@@ -9,7 +9,7 @@
 namespace titanium {
 	namespace core {
 
-		using EventPtr = std::shared_ptr<core::IEvent>;
+		using spEvent = std::shared_ptr<core::IEvent>;
 
 		class Service {
 		public:
@@ -20,7 +20,7 @@ namespace titanium {
 			
 			void worker_thread();
 			void start();
-			virtual void onEvent(IEvent* event) = 0 {}
+			virtual void onEvent(spEvent event) = 0 {}
 			void stop();
 		private:
 			boost::asio::io_service _ios;

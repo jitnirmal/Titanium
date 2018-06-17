@@ -12,11 +12,11 @@ namespace titanium {
 
 		void OrderStore::PostOrders()
 		{
-			for (auto& spOrderPtr : _store)
+			for (auto& spOrder : _store)
 			{
 				auto& os = op::OrderService::Instance();
-				core::IEvent* event = new OrderEvtIn(spOrderPtr);
-				os.post(boost::bind(&core::Service::onEvent, &os, event));
+				auto spEvt = std::make_shared<ordersInt::OrderEvtIn>(spOrder);
+				os.post(boost::bind(&core::Service::onEvent, &os, spEvt));
 			}
 		}
 		void OrderStore::GetOrderStoreFromFile()
@@ -97,9 +97,9 @@ namespace titanium {
 
 		std::ostream& operator<<(std::ostream& os, const OrderStore& orderStore)
 		{
-			for (const auto& order : orderStore._store)
+			for (const auto& spOrder : orderStore._store)
 			{
-				std::cout << *order << std::endl;
+				std::cout << *spOrder << std::endl;
 			}
 			return os;
 		}
