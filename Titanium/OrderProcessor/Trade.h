@@ -11,17 +11,17 @@ namespace titanium {
 		public:
 			Trade(long signedQty,
 				double price,
-				Order* origin = NULL);
+				spOrder& spOrd);
 
 			virtual ~Trade();
 			long getSignedQty() const;
 			double getPrice() const;
-			Order* Trade::getOrigin() const;
+			spOrder Trade::getOrigin() const;
 			
 		private:
 			long _signedQty;
 			double _price;
-			Order* _origin;
+			spOrder _spOriginOrder;
 
 		};
 
@@ -35,9 +35,9 @@ namespace titanium {
 			return _price;
 		}
 
-		inline Order* Trade::getOrigin() const
+		inline spOrder Trade::getOrigin() const
 		{
-			return _origin;
+			return _spOriginOrder;
 		}
 
 

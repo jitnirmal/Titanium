@@ -4,20 +4,22 @@
 #include "OrderDef.h"
 #include <set>
 #include <iostream>  
+#include <memory>  
 
 namespace titanium {
 	namespace op {
 
 		
 		class Order;
+		using spOrder = std::shared_ptr<Order>;
 
 		class IdComparator
 		{
 		public:
-			bool operator()(const Order*, const Order*) const;
+			bool operator()(const spOrder, const spOrder) const;
 		};
 
-		using OrderSet = std::set<Order*, IdComparator>;
+		using OrderSet = std::set<spOrder, IdComparator>;
 
 
 		class Order 

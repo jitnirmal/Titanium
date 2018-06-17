@@ -21,7 +21,7 @@ int main()
 		auto oStore = std::make_unique<store>(file, delim);
 		oStore->GetOrderStoreFromFile();
 		oStore->PostOrders();
-		std::cout << *oStore << std::endl;
+	//	std::cout << *oStore << std::endl;
 		
 	}
 	catch (std::exception& ex)

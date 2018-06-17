@@ -13,8 +13,8 @@ namespace titanium {
 			OrderBook() = default;
 			virtual ~OrderBook() = default;
 
-			void addOrder(Order* order);
-			void removeOrder(Order* order);
+			void addOrder(const spOrder& order);
+			void removeOrder(const spOrder& order);
 			
 			Order* getOrderById(util::UID) const;
 		

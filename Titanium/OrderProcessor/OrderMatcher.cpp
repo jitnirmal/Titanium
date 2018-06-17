@@ -8,27 +8,27 @@ namespace titanium {
 			OrderService::Instance().addObserver(*this);
 		}
 
-		void OrderMatcher::onEvent(Order& order)
+		void OrderMatcher::onEvent(spOrder& spOdr)
 		{
-			auto symbol = order.orderDef().getSymbol();
+			auto symbol = spOdr->orderDef().getSymbol();
 			auto obIter = _orderBookByInstrument.find(symbol);
 
-			OrderBook* ob = nullptr;
+			spOrderBook spOrdBook;
 			if (obIter != _orderBookByInstrument.end())
 			{
-				ob = &obIter->second;
+				spOrdBook = obIter->second;
 			}
 			else
 			{
-				ob = new OrderBook();
-				_orderBookByInstrument[symbol] = *ob;
+				spOrdBook = std::make_shared<OrderBook>();
+				_orderBookByInstrument[symbol] = spOrdBook;
 			}
 
-			process(order, *ob);
+			process(spOdr, spOrdBook);
 		}
 
 
-		TradePtr OrderMatcher::process(Order& mktOrder, OrderBook& orderBook)
+		spTrade OrderMatcher::process(spOrder& spMktOrder, spOrderBook& spOrdBook)
 		{
 			
 			long tradedQty{ 0 };
@@ -36,34 +36,36 @@ namespace titanium {
 			double tradedPrice { 0.0 };
 			bool matched{ false };
 
-			const OrderSet& orderSet = (mktOrder.orderDef().getSide() == TradingSide::BUY ? orderBook.buyOrders() : orderBook.sellOrders());
+			const OrderSet& orderSet = (spMktOrder->orderDef().getSide() == TradingSide::BUY ? spOrdBook->buyOrders() : spOrdBook->sellOrders());
 			
 			// Match with other side
 			for (auto& obOrder : orderSet)
 			{
-				if (obOrder->getMarketPrice() == mktOrder.getMarketPrice())
+				if (obOrder->getMarketPrice() == spMktOrder->getMarketPrice())
 				{
 					tradedPrice = obOrder->getMarketPrice();
-					remainingQty = obOrder->getMarketQty() - mktOrder.getMarketQty();
+					remainingQty = obOrder->getMarketQty() - spMktOrder->getMarketQty();
 
 					if (remainingQty > 0)
 					{
 						// mkt order < oB matched order
 						obOrder->setMarketQty(remainingQty);
 						obOrder->SetAlive(true);
-						mktOrder.setMarketQty(0);
-						mktOrder.SetAlive(false);
-						tradedQty = mktOrder.getMarketQty();
+						spMktOrder->setMarketQty(0);
+						spMktOrder->SetAlive(false);
+						tradedQty = spMktOrder->getMarketQty();
+						std::cout << "trade : partial qty consumed " << *spMktOrder << std::endl;
 					}
 					else if(remainingQty == 0)
 					{
 						// mkt order == oB matched order
 						obOrder->setMarketQty(0);
 						obOrder->SetAlive(false);
-						mktOrder.setMarketQty(0);
-						mktOrder.SetAlive(false);
-						tradedQty = mktOrder.getMarketQty();
-						orderBook.removeOrder(obOrder);
+						spMktOrder->setMarketQty(0);
+						spMktOrder->SetAlive(false);
+						tradedQty = spMktOrder->getMarketQty();
+						spOrdBook->removeOrder(obOrder);
+						std::cout << "trade : full qty consumed " << *spMktOrder << std::endl;
 						
 					}
 					else
@@ -71,11 +73,12 @@ namespace titanium {
 						// mkt order > oB matched order
 						obOrder->setMarketQty(0);
 						obOrder->SetAlive(false);
-						mktOrder.setMarketQty(abs(remainingQty));
-						mktOrder.SetAlive(true);
+						spMktOrder->setMarketQty(abs(remainingQty));
+						spMktOrder->SetAlive(true);
 						tradedQty = obOrder->getMarketQty();
-						orderBook.removeOrder(obOrder);
-						orderBook.addOrder(&mktOrder);
+						spOrdBook->removeOrder(obOrder);
+						spOrdBook->addOrder(spMktOrder);
+						std::cout << "trade : full qty consumed with order insert" << *spMktOrder << std::endl;
 					}
 					matched = true;
 					break;
@@ -84,10 +87,11 @@ namespace titanium {
 
 			if (matched == false)
 			{
-				orderBook.addOrder(&mktOrder);
+				spOrdBook->addOrder(spMktOrder);
+				std::cout << "new order in OB " << *spMktOrder << std::endl;
 			}
-			auto tradePtr = std::make_shared<Trade>(tradedQty, tradedPrice, &mktOrder);
-			return tradePtr;
+			auto sptrade = std::make_shared<Trade>(tradedQty, tradedPrice, spMktOrder);
+			return sptrade;
 		}
 
 	}

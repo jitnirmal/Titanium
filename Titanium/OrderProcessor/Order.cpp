@@ -15,7 +15,7 @@ namespace titanium {
 			return _orderDef;
 		}
 
-		bool IdComparator::operator()(const Order* x, const Order* y) const
+		bool IdComparator::operator()(const spOrder x, const spOrder y) const
 		{
 			return (x->_uniqueID < y->_uniqueID);
 		}

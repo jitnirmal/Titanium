@@ -5,10 +5,10 @@ namespace titanium {
 
 		Trade::Trade(long signedQty,
 			double price,
-			Order* origin)
+			spOrder& origin)
 			: _signedQty(signedQty),
 			_price(price),
-			_origin(origin)
+			_spOriginOrder(origin)
 		{
 		}
 

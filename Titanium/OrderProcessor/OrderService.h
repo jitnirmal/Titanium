@@ -14,7 +14,7 @@
 namespace titanium {
 	namespace op {
 
-		class OrderService : public core::Service, public util::SingletonBase<OrderService>, public util::Observable<Order>
+		class OrderService : public core::Service, public util::SingletonBase<OrderService>, public util::Observable<spOrder>
 		{
 		public:
 			virtual void onEvent(core::spEvent event) override;

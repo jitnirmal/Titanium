@@ -10,15 +10,16 @@
 namespace titanium {
 	namespace op {
 
-		using TradePtr = std::shared_ptr<Trade>;
+		using spTrade = std::shared_ptr<Trade>;
+		using spOrderBook = std::shared_ptr<OrderBook>;
 
-		class IOrderMatcher : public util::Observer<op::Order>
+		class IOrderMatcher : public util::Observer<spOrder>
 		{
 		public:
 			IOrderMatcher() = default;
 			virtual ~IOrderMatcher() = default;
-
-			virtual void onEvent(Order&) = 0;
+			virtual void Init() = 0;
+			virtual void onEvent(spOrder&) = 0;
 
 		};
 
@@ -27,13 +28,11 @@ namespace titanium {
 		public:
 			OrderMatcher() = default;
 			virtual ~OrderMatcher() = default;
-
-			virtual void onEvent(Order&) override;
-
-			void Init();
+			virtual void Init() override;
+			virtual void onEvent(spOrder&) override;
 		private:
-			std::unordered_map<std::string, OrderBook> _orderBookByInstrument;
-			TradePtr process(Order& order, OrderBook& orderBook);
+			std::unordered_map<std::string, spOrderBook> _orderBookByInstrument;
+			spTrade process(spOrder& order, spOrderBook& orderBook);
 
 
 		};
