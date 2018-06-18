@@ -6,7 +6,7 @@ namespace titanium {
 		class SingletonBase
 		{
 		protected:
-			SingletonBase() {}
+			SingletonBase() = default;
 		public:
 			SingletonBase(SingletonBase const &) = delete;
 			SingletonBase& operator=(SingletonBase const&) = delete;

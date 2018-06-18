@@ -26,5 +26,5 @@ namespace titanium {
 		};
 
 	
-	}
-}
+	} // ordersInt end
+} // titanium end

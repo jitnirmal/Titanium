@@ -20,7 +20,7 @@ namespace titanium {
 			std::ifstream file(_fileName);
 			std::vector<std::vector<std::string> > dataList;
 
-			std::string line = "";
+			std::string line;
 			// Iterate through each line and split the content using delimeter
 			while (getline(file, line))
 			{
@@ -32,7 +32,6 @@ namespace titanium {
 		}
 
 		static void TestCSVReader()
-
 		{
 			auto file = std::string{ "F:\\2018\\Coding\\Tester\\Files\\" };
 			file = file.append("OrdersIn.csv");
@@ -41,5 +40,5 @@ namespace titanium {
 			auto data = reader->getData();
 
 		}
-	}
-}
+	} /*ordersInt*/
+} /*titanium*/

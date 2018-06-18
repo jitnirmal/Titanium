@@ -9,7 +9,7 @@ namespace titanium {
 		class OrderEvtIn : public core::IEvent
 		{
 		public:
-			OrderEvtIn(ShOrderPtr data) :Data(data) {}
+			explicit OrderEvtIn(ShOrderPtr data) :Data(data) {}
 			ShOrderPtr Data;
 		};
 

@@ -34,19 +34,19 @@ namespace titanium {
 		class OrderDef
 		{
 		public:
-			OrderDef();
-			~OrderDef();
+			OrderDef()=default;
+			~OrderDef() = default;
 
 			//void setInstrument(const product::);
 			//const product::Instrument*		getInstrument() const;
 
-			void setSide(TradingSide);
+			void setSide(TradingSide side);
 			TradingSide getSide() const;
 
-			void setType(OrderType);
+			void setType(OrderType orderType);
 			OrderType getType() const;
 
-			void setSymbol(std::string);
+			void setSymbol(const std::string& value);
 			std::string getSymbol() const;
 
 			std::string getSideAsString() const noexcept;
@@ -67,9 +67,9 @@ namespace titanium {
 			return _side;
 		}
 
-		inline void OrderDef::setSide(TradingSide value)
+		inline void OrderDef::setSide(TradingSide side)
 		{
-			_side = value;
+			_side = side;
 		}
 
 		inline OrderType OrderDef::getType() const
@@ -77,9 +77,9 @@ namespace titanium {
 			return _orderType;
 		}
 
-		inline void OrderDef::setType(OrderType value)
+		inline void OrderDef::setType(OrderType orderType)
 		{
-			_orderType = value;
+			_orderType = orderType;
 		}
 	
 
@@ -88,7 +88,7 @@ namespace titanium {
 			return _symbol;
 		}
 
-		inline void OrderDef::setSymbol(std::string value)
+		inline void OrderDef::setSymbol(const std::string& value)
 		{
 			_symbol = value;
 		}

@@ -15,13 +15,13 @@ namespace titanium {
 		public:
 			
 
-			Instrument() noexcept;
-			virtual ~Instrument() noexcept;
+			Instrument()= default;
+			virtual ~Instrument() =default;
 
 			void setName(const std::string&);
 			const std::string& getName() const;
 
-			void setupMarket(const std::string&);
+			void setupMarket(const std::string& market);
 			const std::string& getMarket() const;
 
 			InstrumentType getType() const { return _type; }
@@ -29,7 +29,7 @@ namespace titanium {
 		protected:
 			std::string			_name;
 			std::string			_market;
-			InstrumentType		_type;
+			InstrumentType		_type = { InstrumentType::STOCK };
 		};
 
 		inline void Instrument::setName(const std::string&  name)
@@ -43,9 +43,9 @@ namespace titanium {
 		}
 
 	
-		inline void Instrument::setupMarket(const std::string& value)
+		inline void Instrument::setupMarket(const std::string& market)
 		{
-			_market = value;
+			_market = market;
 		}
 
 		inline const std::string& Instrument::getMarket() const

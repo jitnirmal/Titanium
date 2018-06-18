@@ -93,7 +93,7 @@ namespace titanium {
 				std::cout << std::endl;
 			}
 
-		}
+		 }
 
 		std::ostream& operator<<(std::ostream& os, const OrderStore& orderStore)
 		{

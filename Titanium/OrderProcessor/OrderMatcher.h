@@ -28,8 +28,8 @@ namespace titanium {
 		public:
 			OrderMatcher() = default;
 			virtual ~OrderMatcher() = default;
-			virtual void Init() override;
-			virtual void onEvent(spOrder&) override;
+			void Init() override;
+			void onEvent(spOrder&) override;
 		private:
 			std::unordered_map<std::string, spOrderBook> _orderBookByInstrument;
 			spTrade process(spOrder& order, spOrderBook& orderBook);

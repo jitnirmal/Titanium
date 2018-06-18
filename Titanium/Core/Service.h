@@ -21,7 +21,7 @@ namespace titanium {
 			void worker_thread();
 			void start();
 			void stop();
-			virtual void onEvent(spEvent event) = 0 {}
+			virtual void onEvent(spEvent event) = 0;
 		private:
 			boost::asio::io_service _ios;
 			boost::asio::io_service::work _work_ctrl{ _ios };

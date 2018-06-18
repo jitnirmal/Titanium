@@ -40,5 +40,5 @@ int main()
 		std::this_thread::sleep_for(3s);
 	}
 
-	return true;
+	return 0;
 }

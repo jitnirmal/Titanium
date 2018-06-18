@@ -26,8 +26,8 @@ namespace titanium {
 		{
 		public:
 
-			Order();
-			virtual ~Order();
+			Order()=default;
+			virtual ~Order() = default;
 
 			bool isAlive() const noexcept;
 			void SetAlive(bool status)  noexcept;

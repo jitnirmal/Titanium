@@ -2,14 +2,6 @@
 
 namespace titanium {
 	namespace op {
-		Order::Order()
-		{
-
-		}
-		Order::~Order()
-		{
-
-		}
 		OrderDef& Order::orderDef()
 		{
 			return _orderDef;

@@ -3,14 +3,6 @@
 namespace titanium {
 	namespace op {
 
-		OrderDef::OrderDef()
-		{
-		}
-
-		OrderDef::~OrderDef()
-		{
-		}
-
 		std::string OrderDef::getTypeAsString() const noexcept
 		{
 			switch (_orderType)
