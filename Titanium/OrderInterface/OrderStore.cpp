@@ -1,6 +1,7 @@
 #include "OrderStore.h"
 #include "OrderService.h"
 #include "OrderEvtIn.h"
+#include "FileReader.h"
 
 namespace titanium {
 	namespace ordersInt {
@@ -24,71 +25,59 @@ namespace titanium {
 
 			//UniqueID	ClientOrderId	Symbol	 TradingSide	OrderType	TxnType	MarketPrice	MarketQty
 			_store.clear();
-			auto reader = std::make_unique<csvReader>(_fileName, _delim);
-			auto data = reader->getData();
+			auto reader = std::make_unique<IO::csvReader>(_fileName, _delim);
+			using FieldTuple = std::tuple<util::UID,std::string, std::string, std::string, std::string, std::string,double, long>;
+			FieldTuple fields;
+			auto data = reader->getDataAsTupleFields(fields);
 
-			auto firstRecord = true;
-			for (const auto& row : data)
+		
+			for (const auto& record : data)
 			{
-				if (firstRecord)
-				{
-					firstRecord = false;
-					continue;
-				}
+
 				auto so = std::make_shared<op::Order>();
-				for (const auto& field : row)
+
+				so->setUniqueId(std::get<0>(record));
+				auto ClientOrderId = std::get<0>(record);
+				so->orderDef().setSymbol(std::get<2>(record));
+
+				auto tradingSide = std::get<3>(record);
+				if (util::str_toupper(tradingSide) == "B")
 				{
-					std::cout << field << " ";
-					std::cout << field << " ";
-					auto uniqueID = std::stoll(row[0]);
-					so->setUniqueId(uniqueID);
-
-					auto ClientOrderId = row[1];
-
-					auto symbol = row[2];
-					so->orderDef().setSymbol(symbol);
-
-					auto tradingSide = row[3];
-					if (util::str_toupper(tradingSide) == "B")
-					{
-						so->orderDef().setSide(op::TradingSide::BUY);
-					}
-					else
-					{
-						so->orderDef().setSide(op::TradingSide::SELL);
-					}
-
-					auto orderType = row[4];
-					if (util::str_toupper(orderType) == "LMT")
-					{
-						so->orderDef().setType(op::OrderType::LIMIT);
-					}
-					else
-					{
-						// throw exception.. we dont handle other types now
-					}
-
-
-					auto txnType = row[5];
-					if (util::str_toupper(txnType) == "N")
-					{
-						so->setTxnType(op::TxnType::NEW);
-					}
-					else if (util::str_toupper(txnType) == "A")
-					{
-						so->setTxnType(op::TxnType::AMEND);
-					}
-					else
-					{
-						so->setTxnType(op::TxnType::CANCEL);
-					}
-
-					auto marketPrice = std::stod(row[6]);
-					so->setMarketPrice(marketPrice);
-
-					auto marketQty = std::stol(row[7]);
-					so->setMarketQty(marketQty);
+					so->orderDef().setSide(op::TradingSide::BUY);
 				}
+				else
+				{
+					so->orderDef().setSide(op::TradingSide::SELL);
+				}
+
+				auto orderType = std::get<4>(record);
+				if (util::str_toupper(orderType) == "LMT")
+				{
+					so->orderDef().setType(op::OrderType::LIMIT);
+				}
+				else
+				{
+					// throw exception.. we dont handle other types now
+				}
+
+
+				auto txnType = std::get<5>(record);
+				if (util::str_toupper(txnType) == "N")
+				{
+					so->setTxnType(op::TxnType::NEW);
+				}
+				else if (util::str_toupper(txnType) == "A")
+				{
+					so->setTxnType(op::TxnType::AMEND);
+				}
+				else
+				{
+					so->setTxnType(op::TxnType::CANCEL);
+				}
+
+				so->setMarketPrice(std::get<6>(record));
+				so->setMarketQty(std::get<7>(record));
+
 				_store.push_back(so);
 				std::cout << std::endl;
 			}

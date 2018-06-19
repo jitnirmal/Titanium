@@ -24,6 +24,7 @@ namespace titanium {
 			IOC
 		};
 
+		
 		enum class TradingSide 
 		{
 			BUY = 1,

@@ -3,8 +3,6 @@ set(OrderInterface_SRCS
 	OrderEvtIn.cpp
 	OrderEvtOut.h
 	OrderEvtOut.cpp
-	FileReader.h
-	FileReader.cpp
 	OrderStore.h
 	OrderStore.cpp
 )
@@ -19,6 +17,7 @@ target_link_libraries(  OrderInterface
 	OrderProcessor
 	Core
 	Util
+	IO
 )
 
 # Specify here the include directories exported

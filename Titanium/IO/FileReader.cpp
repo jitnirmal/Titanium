@@ -1,7 +1,9 @@
 #include "FileReader.h"
 
+
+
 namespace titanium {
-	namespace ordersInt {
+	namespace IO {
 		csvReader::csvReader(const std::string& fileName, const char delim) :
 			_fileName(fileName),
 			_delim(delim) {}
@@ -16,14 +18,21 @@ namespace titanium {
 			return elems;
 		}
 
-		std::vector<std::vector<std::string>> csvReader::getData() {
+		std::vector<std::vector<std::string>> csvReader::getDataAsVectorOFStringFields() {
 			std::ifstream file(_fileName);
 			std::vector<std::vector<std::string> > dataList;
 
 			std::string line;
 			// Iterate through each line and split the content using delimeter
+			auto firstRecord = true;
 			while (getline(file, line))
 			{
+				if (firstRecord)
+				{
+					// skip the header...
+					firstRecord = false;
+					continue;
+				}
 				dataList.push_back(split(line, _delim));
 			}
 			// Close the File
@@ -37,7 +46,7 @@ namespace titanium {
 			file = file.append("OrdersIn.csv");
 			const auto delim = ',';
 			auto reader = std::make_unique<csvReader>(file, delim);
-			auto data = reader->getData();
+			auto data = reader->getDataAsVectorOFStringFields();
 
 		}
 	} /*ordersInt*/
