@@ -2,6 +2,9 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <algorithm>
+#include <functional>
+#include <iostream>
 #include <memory>
 #include <filesystem>
 #include <type_traits>
@@ -21,13 +24,13 @@ namespace titanium {
 			const char _delim;
 		private:
 			template <std::size_t I = 0, typename Iterator, typename ...Ts>
-			typename std::enable_if< I == sizeof...(Ts), void>::type
+			typename std::enable_if< (I == sizeof...(Ts)), void>::type
 				parse(std::tuple<Ts...> &tuple, Iterator it)
 			{
 			};
 
 			template <std::size_t I = 0, typename Iterator, typename ...Ts>
-			typename std::enable_if< I < sizeof...(Ts), void>::type
+			typename std::enable_if< (I < sizeof...(Ts)), void>::type
 				parse(std::tuple<Ts...> &tuple, Iterator it)
 			{
 				std::get<I>(tuple) = boost::lexical_cast<typename std::tuple_element<I, std::tuple<Ts...> >::type >(*it);
@@ -48,25 +51,27 @@ namespace titanium {
 		std::vector<std::tuple<Ts...>> csvReader::getDataAsTupleFields(std::tuple<Ts...> tuple)
 		{
 			std::vector<std::tuple<Ts...>> OutDataVector;
-			std::vector<std::string> fields;
+			std::string delim =",";
 			
-			std::ifstream file(_fileName);
-			std::string line;
-			auto firstRecord = true;
-			while (getline(file, line))
-			{
-				if (firstRecord)
-				{
-					// skip the header...
-					firstRecord = false;
-					continue;
-				}
-				boost::split(fields, line, boost::is_any_of(","));
+			auto convertor = [&](const std::string& line) {
+				std::vector<std::string> fields;
+				boost::split(fields, line, boost::is_any_of(delim));
 				parse(tuple, fields.begin());
-				OutDataVector.push_back(tuple);
-			}
-			// Close the File
+				return tuple;
+			};
+
+			using istream_iterator = std::istream_iterator<std::string>;
+			std::ifstream file(_fileName);
+			std::vector<std::string> input;
+
+			std::copy(istream_iterator(file), istream_iterator(),
+				std::back_inserter(input));
 			file.close();
+
+			// remove the header
+			input.erase(std::begin(input));
+
+			std::transform(std::begin(input), std::end(input), std::back_inserter(OutDataVector),convertor);
 			return OutDataVector;
 		}
 
