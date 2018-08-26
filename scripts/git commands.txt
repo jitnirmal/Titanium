@@ -10,4 +10,5 @@ Check in
 a. git add .
 b. git commit
 c, git push
+d. to remove - git rm file1.txt
 
